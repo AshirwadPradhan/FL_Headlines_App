@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import feedparser
 
 # init the app
@@ -29,20 +29,31 @@ RSS_FEEDS = {'bbc': 'http://feeds.bbci.co.uk/news/rss.xml',
 @app.route('/<channel>') # using dynamic routing here
 def get_news(channel='bbc'):
 	feed = feedparser.parse(RSS_FEEDS[channel])
-	top_article = feed['entries'][0]
+	
+	# top_article = feed['entries'][0]
 
-	return '''
-			<html>
-			<body>
-			<h1>HEADLINES </h1>
-			<b>{title}</b>
-			<i>{published}</i>
-			<p>{desc}</p>
-			</body>
-			</html>
-			'''.format(title=top_article.get('title'),
-						published=top_article.get('published'),
-						desc=top_article.get('summary'))
+	# return '''
+	# 		<html>
+	# 		<body>
+	# 		<h1>HEADLINES </h1>
+	# 		<b>{title}</b>
+	# 		<i>{published}</i>
+	# 		<p>{desc}</p>
+	# 		</body>
+	# 		</html>
+	# 		'''.format(title=top_article.get('title'),
+	# 					published=top_article.get('published'),
+	# 					desc=top_article.get('summary'))
+
+	# passing the context to the template
+	# return render_template('home.html',
+	# 					title=top_article.get('title'),
+	# 					published=top_article.get('published'),
+	# 					desc=top_article.get('summary'))
+
+	# now handle article via top_article object
+	# now we are passing all the news in the rss feeds
+	return render_template('home.html', articles=feed['entries'])
 
 
 # run the app
