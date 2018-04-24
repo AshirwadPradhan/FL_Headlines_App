@@ -8,12 +8,8 @@
 
 	<!--Form elements by deafult uses get to send the requests 
 		The input element name act as a get variable for ex. here url/?channel=bbc -->
-	<form>
-		<input type="text" name="channel" placeholder="Enter the channel">
-		<input type="submit" value="Submit">
-	</form>
 
-	<br/>
+	<p></p>
 
 	<!-- Two braces act as placeholder, passing dynamic values to the template -->
 
@@ -23,6 +19,41 @@
 
 	<!-- adding links to the news -->
 
+	<h2>Current Weather: </h2>
+	<form>
+		<input type="text" name="city" placeholder="Search the city">
+		<input type="submit" value="Submit">
+	</form>
+
+	<p> City: <b>{{ weather.city }}, {{ weather.country }} </b></p>
+	<p>{{ weather.description }} || {{ weather.temperature }}</p>
+
+	<hr />
+
+	<h2>Currency Conversion Rate</h2>
+	<form>
+    from: <select name="cur_frm">
+
+    	{% for currency in currencies %}
+            <option value="{{ currency }}" {{'selected="selected"' if cur_frm==currency }}>{{ currency }}</option>
+         {% endfor %}
+          </select>
+
+     to: <select name="cur_to">
+     	{% for currency in currencies %}
+           <option value="{{ currency }}" {{'selected="selected"' if cur_to==currency }}>{{ currency }}</option>
+        {% endfor %}
+         </select>
+         <input type="submit" value="Submit">
+	</form>
+	<p>1 {{ cur_frm }} = {{ rate }} {{ cur_to }}</p>
+
+	<h1>Top Stories: </h1>
+	<form>
+		<input type="text" name="channel" placeholder="Enter the channel">
+		<input type="submit" value="Submit">
+	</form>
+		<p></p>
 		{% for article in articles %}
 	        <b> <a href="{{ article.link }}">{{ article.title }}</a></b>
 	        <br />
