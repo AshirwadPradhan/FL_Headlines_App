@@ -8,7 +8,9 @@
 
 	<!--Form elements by deafult uses get to send the requests 
 		The input element name act as a get variable for ex. here url/?channel=bbc -->
-	<form>
+	<!-- Here action attribute denotes where we want to redirect the user
+			on submitting the form. Sometimes we are redirected to confirmation page or completion page. Here we want to redirect the user to the same page hence we used '/' -->
+	<form action="/" method="POST">
 		<input type="text" name="channel" placeholder="Enter the channel">
 		<input type="submit" value="Submit">
 	</form>

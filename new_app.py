@@ -63,9 +63,11 @@ RSS_FEEDS = {'bbc': 'http://feeds.bbci.co.uk/news/rss.xml',
 #**********************************************************************
 
 # using GET to request data rather than dynamic urls
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def get_news():
-	query = request.args.get('channel')
+	# getting the data as POST rather than GET
+	# here form.get is used
+	query = request.form.get('channel')
 	if not query or query.lower() not in RSS_FEEDS:
 		channel = 'bbc'
 	else:
