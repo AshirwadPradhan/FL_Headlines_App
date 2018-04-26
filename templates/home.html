@@ -11,7 +11,7 @@
 			<div class="col">
 				<div class="jumbotron">
 					<h1 class="display-4">FEEDER</h1>
-					<p>Headlines, Currency, Weather</p>	
+					<p class="font-weight-bold text-uppercase">Headlines, Currency &amp; Weather</p>	
 				</div>
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 			<div class="col">
 				<div class="card">
 					<div class="card-body">
-						<h2>Current Weather: </h2>
+						<h2>Current Weather</h2>
 						<form class="form-inline">
 							<div class="form-group mx-sm-2 mb-2">
 								<input class="form-control form-control-sm" type="text" name="city" placeholder="Search the city">
@@ -50,22 +50,24 @@
 					<div class="card-body">
 						<h2>Currency Conversion Rate</h2>
 						<form class="form-inline">
-							<div class="form-group">
+							<div class="form-group mx-sm-2 mb-2">
 								From: <select name="cur_frm" class="form-control form-control-sm">
 								{% for currency in currencies %}
 				            		<option value="{{ currency }}" {{'selected="selected"' if cur_frm==currency }}>{{ currency }}</option>
 				         		{% endfor %}
 				          	</select>	
 							</div>
-				    	
-				     		To: <select name="cur_to">
+				    		<div class="form-group mx-sm-2 mb-2">
+				    			To: <select class="form-control form-control-sm" name="cur_to">
 				     			{% for currency in currencies %}
 				           			<option value="{{ currency }}" {{'selected="selected"' if cur_to==currency }}>{{ currency }}</option>
 				        		{% endfor %}
-				         	</select>
-				         	<input type="submit" value="Submit">
+				         		</select>
+				    		</div>
+				     		
+				         	<input class="btn btn-primary btn-sm mb-2" type="submit" value="Submit">
 						</form>
-						<p>1 {{ cur_frm }} = {{ rate }} {{ cur_to }}</p>
+						<p><span class="font-weight-bold"> 1 </span> <span class="font-italic"> {{ cur_frm }} </span> = <span class="font-weight-bold"> {{ rate }} </span> <span class="font-italic"> {{ cur_to }} </span> </p>
 					</div>
 				</div>
 			</div>	
