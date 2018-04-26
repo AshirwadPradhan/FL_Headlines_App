@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 import feedparser
 import json
 import urllib.request
 import urllib.parse
 import api_key as ak
+import datetime
 
 # init the app
 app = Flask(__name__)
@@ -76,32 +77,48 @@ DEFAULTS = {'channel':'bbc',
 def home():
 	'''
 	Route for home page
+	# first get the currency data from form
+	# if there is no args in get request get data from cookie
+	# if the cookie is not set then get the default values
 	'''
 	# get the news data
 	channel = request.args.get('channel')
 	if not channel:
-		channel = DEFAULTS['channel']
+		channel = request.cookies.get('channel')
+		if not channel:
+			channel = DEFAULTS['channel']
 	articles = get_news(channel)
 
 	# get the city data
 	city = request.args.get('city')
 	if not city:
-		city = DEFAULTS['city']
+		city = request.cookies.get('city')
+		if not city:
+			city = DEFAULTS['city']
 	weather = get_weather(city)
 
 	# get the currency data
 	cur_frm = request.args.get('cur_frm')
 	if not cur_frm:
-		cur_frm = DEFAULTS['cur_frm']
+		cur_frm = request.cookies.get('cur_frm')
+		if not cur_frm:
+			cur_frm = DEFAULTS['cur_frm']
 
 	cur_to = request.args.get('cur_to')
 	if not cur_to:
-		cur_to = DEFAULTS['cur_to']
+		cur_to = request.cookies.get('cur_to')
+		if not cur_to:
+			cur_to = DEFAULTS['cur_to']
 
 	rate, currencies = get_conv_rate(cur_frm, cur_to)
 
-
-	return render_template('home.html', articles=articles, weather=weather, cur_frm=cur_frm, cur_to=cur_to, rate=rate, currencies=currencies)
+	response = make_response(render_template('home.html', articles=articles, weather=weather, cur_frm=cur_frm, cur_to=cur_to, rate=rate, currencies=sorted(currencies)))
+	expires = datetime.datetime.now() + datetime.timedelta(days=365)
+	response.set_cookie('channel', channel, expires=expires)
+	response.set_cookie('city', city, expires=expires)
+	response.set_cookie('cur_frm', cur_frm, expires=expires)
+	response.set_cookie('cur_to', cur_to, expires=expires)
+	return response
 
 
 def get_news(channel):
