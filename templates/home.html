@@ -1,66 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 	<title>Feeder</title>
 </head>
 <body>
-	<h1>Headlines</h1>
+	<div class="container">
 
-	<!--Form elements by deafult uses get to send the requests 
-		The input element name act as a get variable for ex. here url/?channel=bbc -->
+		<div class="row">
+			<div class="col">
+				<div class="jumbotron">
+					<h1 class="display-4">FEEDER</h1>
+					<p>Headlines, Currency, Weather</p>	
+				</div>
+			</div>
+		</div>
 
-	<p></p>
+		<!--Form elements by deafult uses get to send the requests 
+			The input element name act as a get variable for ex. here url/?channel=bbc -->
 
-	<!-- Two braces act as placeholder, passing dynamic values to the template -->
-
-	<!-- Accessing dict in Jinja is little different from python 
-			We use article.title instead of article['title'] or 
-			article.get('title') as we use in Python -->
-
-	<!-- adding links to the news -->
-
-	<h2>Current Weather: </h2>
-	<form>
-		<input type="text" name="city" placeholder="Search the city">
-		<input type="submit" value="Submit">
-	</form>
-
-	<p> City: <b>{{ weather.city }}, {{ weather.country }} </b></p>
-	<p>{{ weather.description }} || {{ weather.temperature }}</p>
-
-	<hr />
-
-	<h2>Currency Conversion Rate</h2>
-	<form>
-    from: <select name="cur_frm">
-
-    	{% for currency in currencies %}
-            <option value="{{ currency }}" {{'selected="selected"' if cur_frm==currency }}>{{ currency }}</option>
-         {% endfor %}
-          </select>
-
-     to: <select name="cur_to">
-     	{% for currency in currencies %}
-           <option value="{{ currency }}" {{'selected="selected"' if cur_to==currency }}>{{ currency }}</option>
-        {% endfor %}
-         </select>
-         <input type="submit" value="Submit">
-	</form>
-	<p>1 {{ cur_frm }} = {{ rate }} {{ cur_to }}</p>
-
-	<h1>Top Stories: </h1>
-	<form>
-		<input type="text" name="channel" placeholder="Enter the channel">
-		<input type="submit" value="Submit">
-	</form>
 		<p></p>
-		{% for article in articles %}
-	        <b> <a href="{{ article.link }}">{{ article.title }}</a></b>
-	        <br />
-	        <i> {{ article.published }} </i>
-	        <br />
-	        <p> {{ article.summary }} </p>
-	        <hr/>
-        {% endfor %}
+
+		<!-- Two braces act as placeholder, passing dynamic values to the template -->
+
+		<!-- Accessing dict in Jinja is little different from python 
+				We use article.title instead of article['title'] or 
+				article.get('title') as we use in Python -->
+
+		<!-- adding links to the news -->
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div class="card-body">
+						<h2>Current Weather: </h2>
+						<form class="form-inline">
+							<div class="form-group mx-sm-2 mb-2">
+								<input class="form-control form-control-sm" type="text" name="city" placeholder="Search the city">
+							</div>
+							<input type="submit" value="Submit" class="btn btn-sm mb-2 btn-primary">
+						</form>
+						<p class="mx-2"> <strong>City: {{ weather.city }}</strong>, <strong>{{ weather.country }}</strong>
+						<span class="text-capitalize">{{ weather.description }}, <span class="font-italic"> {{ weather.temperature }}<sup>o</sup> C </span> </p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col">
+				<div class="card">
+					<div class="card-body">
+						<h2>Currency Conversion Rate</h2>
+						<form class="form-inline">
+							<div class="form-group">
+								From: <select name="cur_frm" class="form-control form-control-sm">
+								{% for currency in currencies %}
+				            		<option value="{{ currency }}" {{'selected="selected"' if cur_frm==currency }}>{{ currency }}</option>
+				         		{% endfor %}
+				          	</select>	
+							</div>
+				    	
+				     		To: <select name="cur_to">
+				     			{% for currency in currencies %}
+				           			<option value="{{ currency }}" {{'selected="selected"' if cur_to==currency }}>{{ currency }}</option>
+				        		{% endfor %}
+				         	</select>
+				         	<input type="submit" value="Submit">
+						</form>
+						<p>1 {{ cur_frm }} = {{ rate }} {{ cur_to }}</p>
+					</div>
+				</div>
+			</div>	
+		</div>
+		
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div class="card-body">
+						<h1>Top Stories: </h1>
+						<form class="form-inline">
+							<div class="form-group mx-sm-2 mb-2">
+								<input class="form-control form-control-sm" type="text" name="channel" placeholder="Enter the channel">
+							</div>
+							<input class="btn btn-primary btn-sm mb-2" type="submit" value="Submit">
+						</form>
+							<p></p>
+							{% for article in articles %}
+						        <b> <a href="{{ article.link }}">{{ article.title }}</a></b>
+						        <br />
+						        <i> {{ article.published }} </i>
+						        <br />
+						        <p> {{ article.summary }} </p>
+						        <hr/>
+					        {% endfor %}
+					    </div>
+					</div>
+			    </div>
+			</div>
+	</div>
+	
 </body>
 </html>
